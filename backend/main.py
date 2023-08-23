@@ -42,11 +42,17 @@ def menu() -> None:
             if user1.name == contact:
                 for user2 in users:
                     if user2.name == usuario:
-                        group: Group = Group(contact)
-                        group.addUser(user1)
-                        group.addUser(user2)
+                        group: Group
 
-                        groups.append(group)
+                        if not existGroup(contact + usuario) and not existGroup(usuario + contact):
+                            group = Group(contact + usuario)
+                            group.addUser(user1)
+                            group.addUser(user2)
+                            groups.append(group)
+                        else:
+                            for gr in groups:
+                                if gr.getName == contact + usuario or gr.getName == usuario + contact:
+                                    group = gr
 
                         while True:
                             messageStr: str = input("Digite a mensagem ou sair: ")
@@ -61,11 +67,20 @@ def menu() -> None:
 
     elif option == '4':
         pass
+    elif option == '5':
+        print("Lista de conversas")
+        for group in groups:
+            print(group)
     elif option == '6':
         print("Saindo...")
         sleep(1)
         exit()
 
+def existGroup(groupName: str) -> bool:
+    for group in groups:
+        if group.getName == groupName:
+            return True
+    return False
 
 
 if __name__ == "__main__":

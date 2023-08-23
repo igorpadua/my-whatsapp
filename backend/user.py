@@ -10,5 +10,5 @@ class User:
     def setName(self, value: str) -> None:
         self._getName = value
 
-    def __str__(self) -> str:
-        return f"Nome: {self.name}"
+    def __repr__(self) -> str:
+        return f"Usuário: {self.name}"

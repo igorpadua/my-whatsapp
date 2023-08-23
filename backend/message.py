@@ -12,3 +12,6 @@ class Message:
     @getMessage.setter
     def setMessage(self, value: str) -> None:
         self.message = value
+
+    def __repr__(self) -> str:
+        return f"Usuário: {self.user.name} - Mensagem: {self.message}"

@@ -30,3 +30,6 @@ class Group:
 
     def getUsers(self) -> List[User]:
         return self.users
+
+    def __repr__(self) -> str:
+        return f"Grupo: {self.name} - Usuários: {self.users} - Mensagens: {self.messages}"
