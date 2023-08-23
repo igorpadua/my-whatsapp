@@ -1,5 +1,6 @@
 from user import User
 
+
 class Message:
     def __init__(self, message: str, user: User) -> None:
         self.message = message
