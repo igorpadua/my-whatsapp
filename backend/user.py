@@ -9,3 +9,6 @@ class User:
     @getName.setter
     def setName(self, value: str) -> None:
         self._getName = value
+
+    def __str__(self) -> str:
+        return f"Nome: {self.name}"

@@ -29,7 +29,9 @@ def menu() -> None:
         users.append(user)
 
     elif option == 2:
-        pass
+        print("Lista de usuários")
+        for user in users:
+            print(user)
     elif option == 3:
         pass
     elif option == 4:
