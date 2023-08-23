@@ -24,25 +24,25 @@ def menu() -> None:
 
     option: str = input("Digite a opção desejada: ")
 
-    if option == '1':
+    if option == "1":
         name: str = input("Digite o seu nome: ")
         user: User = User(name)
         users.append(user)
 
-    elif option == '2':
+    elif option == "2":
         print("Lista de usuários")
         for user in users:
             print(user)
 
-    elif option == '3':
+    elif option == "3":
         conversationUser()
-    elif option == '4':
+    elif option == "4":
         conversationGroup()
-    elif option == '5':
+    elif option == "5":
         print("Lista de conversas")
         for group in groups:
             print(group)
-    elif option == '6':
+    elif option == "6":
         connection.close()
         print("Saindo...")
         sleep(1)
@@ -67,14 +67,14 @@ def conversationGroup() -> None:
 
             option: str = input("Digite a opção desejada: ")
 
-            if option == '1':
+            if option == "1":
                 name: str = input("Digite o nome do usuário: ")
 
                 for user in users:
                     if user.name == name:
                         group.addUser(user)
                         break
-            elif option == '2':
+            elif option == "2":
                 usuario: str = input("Digite o seu nome: ")
 
                 for us in users:
@@ -82,7 +82,7 @@ def conversationGroup() -> None:
                         while True:
                             if not envitMessage(us, group):
                                 break
-            elif option == '3':
+            elif option == "3":
                 break
 
 
@@ -96,20 +96,24 @@ def conversationUser() -> None:
                 if user2.name == usuario:
                     group: Group
 
-                    if not existGroup(contact + usuario) and not existGroup(usuario + contact):
+                    if not existGroup(contact + usuario) and not existGroup(
+                        usuario + contact
+                    ):
                         group = Group(contact + usuario)
                         group.addUser(user1)
                         group.addUser(user2)
                         groups.append(group)
                     else:
                         for gr in groups:
-                            if gr.getName == contact + usuario or gr.getName == usuario + contact:
+                            if (
+                                gr.getName == contact + usuario
+                                or gr.getName == usuario + contact
+                            ):
                                 group = gr
 
                     while True:
                         if not envitMessage(user2, group):
                             break
-
 
                     break
 
@@ -121,7 +125,7 @@ def on_message_received(ch, method, properties, body):
 def envitMessage(user: User, group: Group) -> bool:
     messageStr: str = input("Digite a mensagem ou sair: ")
 
-    if messageStr == 'sair':
+    if messageStr == "sair":
         return False
 
     message: Message = Message(messageStr, user)
