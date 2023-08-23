@@ -43,6 +43,7 @@ def menu() -> None:
         for group in groups:
             print(group)
     elif option == '6':
+        connection.close()
         print("Saindo...")
         sleep(1)
         exit()
@@ -105,10 +106,16 @@ def conversationUser() -> None:
                             if gr.getName == contact + usuario or gr.getName == usuario + contact:
                                 group = gr
 
-                        while True:
-                            if not envitMessage(user2, group):
-                                break
+                    while True:
+                        if not envitMessage(user2, group):
+                            break
+
+
                     break
+
+
+def on_message_received(ch, method, properties, body):
+    print(f"firstconsumer - received new message: {body}")
 
 
 def envitMessage(user: User, group: Group) -> bool:
@@ -116,8 +123,6 @@ def envitMessage(user: User, group: Group) -> bool:
 
     if messageStr == 'sair':
         return False
-
-    message: Message = Message(messageStr, user)
 
     group.addMessage(message)
     return True
