@@ -1,3 +1,4 @@
+import sys
 from typing import List
 from time import sleep
 from pika import BlockingConnection, ConnectionParameters, PlainCredentials
@@ -10,15 +11,15 @@ from utils import conversationGroup, conversationUser, on_message
 users: List[User] = []
 groups: List[Group] = []
 
-connection = BlockingConnection(ConnectionParameters("localhost"))
-channel = connection.channel()
 
 def main() -> None:
+    connection = BlockingConnection(ConnectionParameters("localhost"))
+    channel = connection.channel()
     while True:
-        menu()
+        menu(channel)
 
 
-def menu() -> None:
+def menu(channel) -> None:
     print("1. Adicionar um novo usuário")
     print("2. Listar usuários")
     print("3. Começar uma conversa com um usuário")

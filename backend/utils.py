@@ -2,6 +2,7 @@ from group import Group
 from user import User
 from message import Message
 from typing import List
+from pika import BlockingConnection, ConnectionParameters, PlainCredentials
 
 
 def conversationGroup(channel, groups: List = [], users: List = []) -> None:
