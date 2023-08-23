@@ -28,27 +28,23 @@ cd sistema-mensagens
 
 requirements.txt
 
-## Inicie o servidor RabbitMQ localmente. Certifique-se de que o servidor esteja em execução e acessível em localhost.
+### Inicie o servidor RabbitMQ localmente. Certifique-se de que o servidor esteja em execução e acessível em localhost.
 
-##Execute o programa principal:
+### Execute o programa principal:
 
+```bash
 python main.py
+```
 
-## Siga as instruções no terminal para interagir com o sistema de mensagens.
+### Siga as instruções no terminal para interagir com o sistema de mensagens.
 
-### Funcionalidades
-
-### Adicionar usuários
-
-### Listar usuários
-
-### Iniciar uma conversa com um usuário
-
-### Iniciar uma conversa em grupo
-
-### Listar conversas
-
-### Receber mensagens
+* Funcionalidades
+*  Adicionar usuários
+*  Listar usuários
+*  Iniciar uma conversa com um usuário
+*  Iniciar uma conversa em grupo
+*  Listar conversas
+*  Receber mensagens
 
 ### Sair do programa
 
