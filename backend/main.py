@@ -35,36 +35,7 @@ def menu() -> None:
             print(user)
 
     elif option == '3':
-        contact: str = input("Digite o nome do usuário que você quer começar a conversa: ")
-        usuario: str = input("Digite o seu nome: ")
-
-        for user1 in users:
-            if user1.name == contact:
-                for user2 in users:
-                    if user2.name == usuario:
-                        group: Group
-
-                        if not existGroup(contact + usuario) and not existGroup(usuario + contact):
-                            group = Group(contact + usuario)
-                            group.addUser(user1)
-                            group.addUser(user2)
-                            groups.append(group)
-                        else:
-                            for gr in groups:
-                                if gr.getName == contact + usuario or gr.getName == usuario + contact:
-                                    group = gr
-
-                        while True:
-                            messageStr: str = input("Digite a mensagem ou sair: ")
-
-                            if messageStr == 'sair':
-                                break
-
-                            message: Message = Message(messageStr, user2)
-
-                            group.addMessage(message)
-                break
-
+        conversationUser()
     elif option == '4':
         pass
     elif option == '5':
@@ -75,6 +46,37 @@ def menu() -> None:
         print("Saindo...")
         sleep(1)
         exit()
+
+def conversationUser() -> None:
+    contact: str = input("Digite o nome do usuário que você quer começar a conversa: ")
+    usuario: str = input("Digite o seu nome: ")
+
+    for user1 in users:
+        if user1.name == contact:
+            for user2 in users:
+                if user2.name == usuario:
+                    group: Group
+
+                    if not existGroup(contact + usuario) and not existGroup(usuario + contact):
+                        group = Group(contact + usuario)
+                        group.addUser(user1)
+                        group.addUser(user2)
+                        groups.append(group)
+                    else:
+                        for gr in groups:
+                            if gr.getName == contact + usuario or gr.getName == usuario + contact:
+                                group = gr
+
+                        while True:
+                            messageStr: str = input("Digite a mensagem ou sair: ")
+
+                            if messageStr == 'sair':
+                                break
+
+                            message: Message = Message(messageStr, user2)
+
+                            group.addMessage(message)
+
 
 def existGroup(groupName: str) -> bool:
     for group in groups:
