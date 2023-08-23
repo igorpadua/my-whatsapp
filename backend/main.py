@@ -37,7 +37,49 @@ def menu() -> None:
     elif option == '3':
         conversationUser()
     elif option == '4':
-        pass
+        groupName: str = input("Digite o nome do grupo: ")
+        group: Group
+
+        if not existGroup(groupName):
+            group = Group(groupName)
+            groups.append(group)
+        else:
+            for gr in groups:
+                if gr.getName == groupName:
+                    group = gr
+        while True:
+            print("1. Adicionar um usuário")
+            print("2. Começar a conversa")
+            print("3. Sair")
+
+            option: str = input("Digite a opção desejada: ")
+
+            if option == '1':
+                name: str = input("Digite o nome do usuário: ")
+
+                for user in users:
+                    if user.name == name:
+                        group.addUser(user)
+                        break
+            elif option == '2':
+                usuario: str = input("Digite o seu nome: ")
+
+                for us in users:
+                    if us.name == usuario:
+
+                        while True:
+                            messageStr: str = input("Digite a mensagem ou sair: ")
+
+                            if messageStr == 'sair':
+                                break
+
+                            message: Message = Message(messageStr, us)
+
+                            group.addMessage(message)
+                        break
+            elif option == '3':
+                break
+
     elif option == '5':
         print("Lista de conversas")
         for group in groups:
@@ -76,6 +118,7 @@ def conversationUser() -> None:
                             message: Message = Message(messageStr, user2)
 
                             group.addMessage(message)
+                    break
 
 
 def existGroup(groupName: str) -> bool:
