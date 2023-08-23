@@ -1,9 +1,10 @@
 from user import User
 from message import Message
+from typing import List
 
 class Group:
-    users: list[User]
-    messages: list[Message]
+    users: List[User]
+    messages: List[Message]
 
     def __init__(self, name: str) -> None:
         self.name = name
@@ -24,8 +25,8 @@ class Group:
     def addMessage(self, message: Message) -> None:
         self.messages.append(message)
 
-    def getMessages(self) -> list[Message]:
+    def getMessages(self) -> List[Message]:
         return self.messages
 
-    def getUsers(self) -> list[User]:
+    def getUsers(self) -> List[User]:
         return self.users
