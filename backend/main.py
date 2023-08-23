@@ -124,6 +124,8 @@ def envitMessage(user: User, group: Group) -> bool:
     if messageStr == 'sair':
         return False
 
+    message: Message = Message(messageStr, user)
+
     group.addMessage(message)
     return True
 
