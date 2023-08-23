@@ -3,6 +3,7 @@ from time import sleep
 
 from group import Group
 from user import User
+from message import Message
 
 users: List[User] = []
 groups: List[Group] = []
@@ -21,25 +22,50 @@ def menu() -> None:
     print("5. Listar conversas")
     print("6. Sair")
 
-    option: int = int(input("Digite a opção desejada: "))
+    option: str = input("Digite a opção desejada: ")
 
-    if option == 1:
+    if option == '1':
         name: str = input("Digite o seu nome: ")
         user: User = User(name)
         users.append(user)
 
-    elif option == 2:
+    elif option == '2':
         print("Lista de usuários")
         for user in users:
             print(user)
-    elif option == 3:
+
+    elif option == '3':
+        contact: str = input("Digite o nome do usuário que você quer começar a conversa: ")
+        usuario: str = input("Digite o seu nome: ")
+
+        for user1 in users:
+            if user1.name == contact:
+                for user2 in users:
+                    if user2.name == usuario:
+                        group: Group = Group(contact)
+                        group.addUser(user1)
+                        group.addUser(user2)
+
+                        groups.append(group)
+
+                        while True:
+                            messageStr: str = input("Digite a mensagem ou sair: ")
+
+                            if messageStr == 'sair':
+                                break
+
+                            message: Message = Message(messageStr, user2)
+
+                            group.addMessage(message)
+                break
+
+    elif option == '4':
         pass
-    elif option == 4:
-        pass
-    elif option == 6:
+    elif option == '6':
         print("Saindo...")
         sleep(1)
         exit()
+
 
 
 if __name__ == "__main__":
