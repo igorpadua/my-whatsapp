@@ -1,5 +1,6 @@
 from typing import List
 from time import sleep
+from pika import BlockingConnection, ConnectionParameters, PlainCredentials
 
 from group import Group
 from user import User
@@ -8,6 +9,8 @@ from message import Message
 users: List[User] = []
 groups: List[Group] = []
 
+connection = BlockingConnection(ConnectionParameters('localhost'))
+channel = connection.channel()
 
 def main() -> None:
     while True:
@@ -20,7 +23,8 @@ def menu() -> None:
     print("3. Começar uma conversa com um usuário")
     print("4. Começar uma conversa em grupo")
     print("5. Listar conversas")
-    print("6. Sair")
+    print("6. Receber mensagens")
+    print("7. Sair")
 
     option: str = input("Digite a opção desejada: ")
 
@@ -42,7 +46,7 @@ def menu() -> None:
         print("Lista de conversas")
         for group in groups:
             print(group)
-    elif option == '6':
+    elif option == '7':
         connection.close()
         print("Saindo...")
         sleep(1)
@@ -119,12 +123,14 @@ def on_message_received(ch, method, properties, body):
 
 
 def envitMessage(user: User, group: Group) -> bool:
+    channel.exchange_declare(exchange='logs', exchange_type='fanout')
     messageStr: str = input("Digite a mensagem ou sair: ")
 
     if messageStr == 'sair':
         return False
 
     message: Message = Message(messageStr, user)
+    channel.basic_publish(exchange='logs', routing_key='', body=message.__repr__())
 
     group.addMessage(message)
     return True
