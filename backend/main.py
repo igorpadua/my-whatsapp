@@ -46,8 +46,19 @@ def menu() -> None:
         print("Lista de conversas")
         for group in groups:
             print(group)
+
+    elif option == '6':
+        nameGroup: str = input("Digite o nome do grupo: ")
+        connection = BlockingConnection(ConnectionParameters('localhost'))
+
+        channel = connection.channel()
+        channel.exchange_declare(exchange=nameGroup, exchange_type='fanout')
+        queue = channel.queue_declare(queue='', exclusive=True)
+        channel.queue_bind(exchange=nameGroup, queue=queue.method.queue)
+        channel.basic_consume(queue=queue.method.queue, on_message_callback=on_message, auto_ack=True)
+        channel.start_consuming()
+
     elif option == '7':
-        connection.close()
         print("Saindo...")
         sleep(1)
         exit()
@@ -64,30 +75,30 @@ def conversationGroup() -> None:
         for gr in groups:
             if gr.getName == groupName:
                 group = gr
-        while True:
-            print("1. Adicionar um usuário")
-            print("2. Começar a conversa")
-            print("3. Sair")
+    while True:
+        print("1. Adicionar um usuário")
+        print("2. Começar a conversa")
+        print("3. Sair")
 
-            option: str = input("Digite a opção desejada: ")
+        option: str = input("Digite a opção desejada: ")
 
-            if option == '1':
-                name: str = input("Digite o nome do usuário: ")
+        if option == '1':
+            name: str = input("Digite o nome do usuário: ")
 
-                for user in users:
-                    if user.name == name:
-                        group.addUser(user)
-                        break
-            elif option == '2':
-                usuario: str = input("Digite o seu nome: ")
+            for user in users:
+                if user.name == name:
+                    group.addUser(user)
+                    break
+        elif option == '2':
+            usuario: str = input("Digite o seu nome: ")
 
-                for us in users:
-                    if us.name == usuario:
-                        while True:
-                            if not envitMessage(us, group):
-                                break
-            elif option == '3':
-                break
+            for us in users:
+                if us.name == usuario:
+                    while True:
+                        if not envitMessage(us, group):
+                            break
+        elif option == '3':
+            break
 
 
 def conversationUser() -> None:
@@ -118,22 +129,22 @@ def conversationUser() -> None:
                     break
 
 
-def on_message_received(ch, method, properties, body):
-    print(f"firstconsumer - received new message: {body}")
-
-
 def envitMessage(user: User, group: Group) -> bool:
-    channel.exchange_declare(exchange='logs', exchange_type='fanout')
+    channel.exchange_declare(exchange=group.name, exchange_type='fanout')
     messageStr: str = input("Digite a mensagem ou sair: ")
 
     if messageStr == 'sair':
         return False
 
     message: Message = Message(messageStr, user)
-    channel.basic_publish(exchange='logs', routing_key='', body=message.__repr__())
+    channel.basic_publish(exchange=group.name, routing_key='', body=message.__repr__())
 
     group.addMessage(message)
     return True
+
+
+def on_message(channel, method_frame, header_frame, body):
+    print(body)
 
 
 def existGroup(groupName: str) -> bool:
